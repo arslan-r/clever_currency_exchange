@@ -9,8 +9,8 @@ Traveling? Can't wrap your head around the currency exchange rate? Take a pictur
 
 I got the basic design down. Here is what to do next.
 Implement the currency exchange feature by hard coding currency rates. Get that working. Should be ez pz.
-* Find a resource that will provide you with a list of all currencies and their current rates. 
-* Would be downloaded when user starts up app for the frst time. 
+  *  Find a resource that will provide you with a list of all currencies and their current rates. 
+  * Would be downloaded when user starts up app for the frst time. 
 
 Get the Camera to take photos.
 * Save the image temporarily.
