@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">clever_currency_exchange</string>
+
+    <string-array name="countryCurrency">
+        <item>JPY</item>
+        <item>USD</item>
+        <item>RUB</item>
+    </string-array>
+
+    <string-array name="USD">
+        <item>USD</item>
+    </string-array>
+
 </resources>
