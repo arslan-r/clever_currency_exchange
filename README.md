@@ -1,8 +1,8 @@
 # clever_currency_exchange
+Using image processing and computer vission, this app allows a picture of a foreign price tag to be converted into your homeland currency.
+
+
 Traveling? Can't wrap your head around the currency exchange rate? Take a picture of the price tag and you will find your answer. Goal is to design an app that's easier to use than manually typing in numbers.
-
-
-
 
 
 ## DESIGN PLAN
@@ -18,14 +18,21 @@ Get the Camera to take photos.
   * Plug information into currencyFrom right away.
 
 Should be pretty much it. Make it pretty. Throw in an animation. Maybe a plane? Skies are cool. Make it a sky blue and white theme.
-* When users first start the app, ask them what they will most likely be converting from and into what currency.
+* When users first start the app, ask them their home counrty (convert into). What to convert from (where they are traveling).
   * Make sure to not show that screen again.
-  * save those preferences, until they change it themselves through the scroll down menu
+  * save those preferences, until they change it themselves through the country spinner
   
 See if its possible to start the app right away by double pressing volume buttons
 See if you can rewire the pixel squeeze to open the app
 * might be useful when an individual has gloves on/its cold
 
+  
+# Possible issues
+* Need to obtain a dataset/constantly updated resource of all countries current exchange rates. 
+  * CONS: Costs money to provide such service.
+  * Maybe start a server, pull data for free every 30 minutes, link app to server?
+   * Users might not use data as they are traveling. Roaming is expensive. Give them option when to update their currency rates.
+  
   
 ## HOW APP SHOULD FUNCTION
 
