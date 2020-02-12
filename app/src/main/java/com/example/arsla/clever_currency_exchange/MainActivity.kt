@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
                          * Google seems to be not very helpful :(
                          * Its coming from the Toast I believe
                          * StackOver flow says something about font?
-                         *
+                         * 
                          * viewFinder.post {
                         Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                         }
