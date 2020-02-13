@@ -5,11 +5,11 @@ Using image processing and computer vission, this app allows a picture of a fore
 Traveling? Can't wrap your head around the currency exchange rate? Take a picture of the price tag and you will find your answer. Goal is to design an app that's easier to use than manually typing in numbers.
 
 
-# PROGRESS REPORT
+# Progress report
 Currently in transition to Google Vision API, as certain technologies aren't supported by android.
 
 
-# DESIGN PLAN
+# Design plan
 
 I got the basic design down. Here is what to do next.
 Implement the currency exchange feature by hard coding currency rates. Get that working. Should be ez pz.
@@ -38,7 +38,7 @@ See if you can rewire the pixel squeeze to open the app
    * Users might not use data as they are traveling. Roaming is expensive. Give them option when to update their currency rates.
   
   
-# HOW THE APP SHOULD FUNCTION
+# User experienece
 
 - User opens app. Snaps a pic. Instantly gets a conversion. No internet required.
 - Easy. Breezy. Beautiful.
