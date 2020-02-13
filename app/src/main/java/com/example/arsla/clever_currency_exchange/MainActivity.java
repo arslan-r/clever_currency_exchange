@@ -31,13 +31,16 @@ import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.*;
 import com.example.arsla.clever_currency_exchange.camera.CameraSource;
 import com.example.arsla.clever_currency_exchange.camera.CameraSourcePreview;
 import com.example.arsla.clever_currency_exchange.camera.GraphicOverlay;
@@ -50,15 +53,22 @@ import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.IOException;
-import java.util.Locale;
+import java.util.*;
+
+
+import static java.lang.Math.round;
+//import java.util.List;
+//import java.util.Locale;
+
 
 /**
  * Activity for the Ocr Detecting app.  This app detects text and displays the value with the
  * rear facing camera. During detection overlay graphics are drawn to indicate the position,
  * size, and contents of each TextBlock.
  */
-public final class MainActivity extends AppCompatActivity {
-    private static final String TAG = "OcrCaptureActivity";
+public final class MainActivity extends AppCompatActivity{
+
+    private static final String TAG = "MainActivity";
 
     // Intent request code to handle updating play services if needed.
     private static final int RC_HANDLE_GMS = 9001;
@@ -81,6 +91,11 @@ public final class MainActivity extends AppCompatActivity {
 
     // A TextToSpeech engine for speaking a String value.
     private TextToSpeech tts;
+
+
+    public static double fromToMultipler = 10.0;
+
+
 
     /**
      * Initializes the UI and creates the detector pipeline.
@@ -127,7 +142,188 @@ public final class MainActivity extends AppCompatActivity {
                     }
                 };
         tts = new TextToSpeech(this.getApplicationContext(), listener);
+
+
+
+         //set to 10 for debugging purposes
+        TextView currencyFromTextView = (TextView) findViewById(R.id.currencyFrom);
+        //var currencyFromTextView = findViewById<TextView>(R.id.currencyFrom)
+
+        //var currencyToTextView = findViewById<TextView>(R.id.currencyTo)
+
+
+        //Create the From currency list here
+        List<Currency> currencyFrom = new ArrayList<Currency>();
+        //var currencyFrom = mutableListOf<Currency>()
+        //val JPY = Currency("JPY", 109.83) //VAR can change. VAL does not
+        Currency JPY = new Currency("JPY", 109.83);
+        Currency USD = new Currency("USD", 1.00);
+        Currency RUB = new Currency("RUB", 63.68);
+
+        currencyFrom.add(JPY);
+        currencyFrom.add(USD);
+        currencyFrom.add(RUB);
+
+
+
+
+        //Create the To currency list here
+
+        //var currencyTo = mutableListOf < Currency > ()
+        List currencyTo = new ArrayList<Currency>();
+
+        //Hard coded in until a large, constantly updated dataset will be found
+        currencyTo.add(USD);
+
+        //Make an adapter and link it here
+        //val ArrayAdapterFrom = ArrayAdapter(this, android.R.layout.simple_spinner_item, currencyFrom)
+        ArrayAdapter ArrayAdapterFrom = new ArrayAdapter(this, android.R.layout.simple_spinner_item, currencyFrom);
+        ArrayAdapterFrom.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        //Do the same
+        ArrayAdapter ArrayAdapterTo = new ArrayAdapter(this, android.R.layout.simple_spinner_item, currencyTo);
+        ArrayAdapterTo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        //Link all of this to the activity
+
+        //Find the spinners
+        Spinner spinnerFrom = findViewById(R.id.spinnerFrom);
+        Spinner spinnerTo = findViewById(R.id.spinnerTo);
+
+        //Attach the adapters
+        spinnerFrom.setAdapter(ArrayAdapterFrom);
+        spinnerTo.setAdapter(ArrayAdapterTo);
+
+
+        //Attach the listeners
+        spinnerFrom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //var currencyObject = spinnerFrom.selectedItem as Currency;
+                Currency currencyObject = (Currency)parent.getItemAtPosition(position);
+                //double fromToMultipler = getMultiFromObject(currencyObject);
+                fromToMultipler = currencyObject.getMultiplier();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+        currencyFromTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //var stringChanged = currencyFromTextView.text.toString().toDoubleOrNull()
+                //String charToString = new String();
+                TextView currencyToTextView = (TextView) findViewById(R.id.currencyTo);
+                Double stringChanged = Double.parseDouble(s.toString());
+
+                if (stringChanged != null) {
+                    //stringChanged = stringChanged / fromToMultipler
+                    //stringChanged = roundTwoDecimal(stringChanged)
+                    //currencyToTextView.text = stringChanged.toString()
+
+                    currencyToTextView.setText(doTheExchange(stringChanged, fromToMultipler));
+
+
+
+                } else {
+                    //currencyToTextView.text = null;
+                    currencyToTextView.setText("0");
+                }
+
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
     }
+
+
+    public Double convertStringToDouble(String string){
+        return Double.parseDouble(string);
+    }
+
+
+
+    public String doTheExchange(Double original, Double multiplier){
+
+        double returnExchange = (original / multiplier) * 100 / 100;
+
+        return String.format("%.2f", returnExchange);
+        //double returnExchange = round((original / multiplier) * 100) / 100
+    }
+
+
+
+
+
+    /**
+     //as the user types, the currency will be automatically converted
+     currencyFromTextView.addTextChangedListener(object :TextWatcher
+
+     {
+
+     override fun afterTextChanged(s:Editable){
+     }
+
+     override fun beforeTextChanged(
+     s:CharSequence, start:Int,
+     count:Int, after:Int
+     ){
+     }
+
+     override fun onTextChanged(
+     s:CharSequence, start:Int,
+     before:Int, count:Int
+     ){
+
+     var stringChanged = currencyFromTextView.text.toString().toDoubleOrNull()
+
+     if (stringChanged != null) {
+     //stringChanged = stringChanged / fromToMultipler
+     //stringChanged = roundTwoDecimal(stringChanged)
+     //currencyToTextView.text = stringChanged.toString()
+
+     currencyToTextView.text = doTheExchange(stringChanged, fromToMultipler)
+
+
+     } else {
+     currencyToTextView.text = null
+     }
+
+     }
+     })
+     */
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Handles the requesting of the camera permission.  This includes
@@ -174,7 +370,7 @@ public final class MainActivity extends AppCompatActivity {
      * Creates and starts the camera.  Note that this uses a higher resolution in comparison
      * to other detection examples to enable the ocr detector to detect small text samples
      * at long distances.
-     *
+     * <p>
      * Suppressing InlinedApi since there is a check that the minimum version is met before using
      * the constant.
      */
@@ -216,12 +412,12 @@ public final class MainActivity extends AppCompatActivity {
         // to other detection examples to enable the text recognizer to detect small pieces of text.
         cameraSource =
                 new CameraSource.Builder(getApplicationContext(), textRecognizer)
-                .setFacing(CameraSource.CAMERA_FACING_BACK)
-                .setRequestedPreviewSize(1280, 1024)
-                .setRequestedFps(2.0f)
-                .setFlashMode(useFlash ? Camera.Parameters.FLASH_MODE_TORCH : null)
-                .setFocusMode(autoFocus ? Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO : null)
-                .build();
+                        .setFacing(CameraSource.CAMERA_FACING_BACK)
+                        .setRequestedPreviewSize(1280, 1024)
+                        .setRequestedFps(2.0f)
+                        .setFlashMode(useFlash ? Camera.Parameters.FLASH_MODE_TORCH : null)
+                        .setFocusMode(autoFocus ? Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO : null)
+                        .build();
     }
 
     /**
@@ -285,7 +481,7 @@ public final class MainActivity extends AppCompatActivity {
         if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Camera permission granted - initialize the camera source");
             // we have permission, so create the camerasource
-            boolean autoFocus = getIntent().getBooleanExtra(AutoFocus,true);
+            boolean autoFocus = getIntent().getBooleanExtra(AutoFocus, true);
             boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
             createCameraSource(autoFocus, useFlash);
             return;
@@ -349,16 +545,17 @@ public final class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "text data is being spoken! " + text.getValue());
                 // Speak the string.
                 tts.speak(text.getValue(), TextToSpeech.QUEUE_ADD, null, "DEFAULT");
-            }
-            else {
+            } else {
                 Log.d(TAG, "text data is null");
             }
-        }
-        else {
-            Log.d(TAG,"no text detected");
+        } else {
+            Log.d(TAG, "no text detected");
         }
         return text != null;
     }
+
+
+
 
     private class CaptureGestureListener extends GestureDetector.SimpleOnGestureListener {
 
@@ -423,4 +620,9 @@ public final class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
+
+
+
 }
