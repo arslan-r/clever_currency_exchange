@@ -46,9 +46,6 @@ import com.example.arsla.clever_currency_exchange.camera.CameraSourcePreview;
 import com.example.arsla.clever_currency_exchange.camera.GraphicOverlay;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-//import com.google.android.gms.samples.vision.ocrreader.ui.camera.CameraSource;
-//import com.google.android.gms.samples.vision.ocrreader.ui.camera.CameraSourcePreview;
-//import com.google.android.gms.samples.vision.ocrreader.ui.camera.GraphicOverlay;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
@@ -56,17 +53,12 @@ import java.io.IOException;
 import java.util.*;
 
 
-import static java.lang.Math.round;
-//import java.util.List;
-//import java.util.Locale;
-
-
 /**
  * Activity for the Ocr Detecting app.  This app detects text and displays the value with the
  * rear facing camera. During detection overlay graphics are drawn to indicate the position,
  * size, and contents of each TextBlock.
  */
-public final class MainActivity extends AppCompatActivity{
+public final class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
@@ -94,7 +86,6 @@ public final class MainActivity extends AppCompatActivity{
 
 
     public static double fromToMultipler = 10.0;
-
 
 
     /**
@@ -144,18 +135,12 @@ public final class MainActivity extends AppCompatActivity{
         tts = new TextToSpeech(this.getApplicationContext(), listener);
 
 
-
-         //set to 10 for debugging purposes
+        //set to 10 for debugging purposes
         TextView currencyFromTextView = (TextView) findViewById(R.id.currencyFrom);
-        //var currencyFromTextView = findViewById<TextView>(R.id.currencyFrom)
-
-        //var currencyToTextView = findViewById<TextView>(R.id.currencyTo)
-
 
         //Create the From currency list here
         List<Currency> currencyFrom = new ArrayList<Currency>();
-        //var currencyFrom = mutableListOf<Currency>()
-        //val JPY = Currency("JPY", 109.83) //VAR can change. VAL does not
+
         Currency JPY = new Currency("JPY", 109.83);
         Currency USD = new Currency("USD", 1.00);
         Currency RUB = new Currency("RUB", 63.68);
@@ -165,11 +150,7 @@ public final class MainActivity extends AppCompatActivity{
         currencyFrom.add(RUB);
 
 
-
-
         //Create the To currency list here
-
-        //var currencyTo = mutableListOf < Currency > ()
         List currencyTo = new ArrayList<Currency>();
 
         //Hard coded in until a large, constantly updated dataset will be found
@@ -200,7 +181,7 @@ public final class MainActivity extends AppCompatActivity{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //var currencyObject = spinnerFrom.selectedItem as Currency;
-                Currency currencyObject = (Currency)parent.getItemAtPosition(position);
+                Currency currencyObject = (Currency) parent.getItemAtPosition(position);
                 //double fromToMultipler = getMultiFromObject(currencyObject);
                 fromToMultipler = currencyObject.getMultiplier();
 
@@ -213,7 +194,6 @@ public final class MainActivity extends AppCompatActivity{
         });
 
 
-
         currencyFromTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -223,25 +203,22 @@ public final class MainActivity extends AppCompatActivity{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //var stringChanged = currencyFromTextView.text.toString().toDoubleOrNull()
-                //String charToString = new String();
                 TextView currencyToTextView = (TextView) findViewById(R.id.currencyTo);
-                Double stringChanged = Double.parseDouble(s.toString());
+                String checkIfEmptyString = s.toString();
+                if (checkIfEmptyString == null) {
+                    checkIfEmptyString = "0";
+                }
+                Double stringChanged = Double.parseDouble(checkIfEmptyString);
+
 
                 if (stringChanged != null) {
-                    //stringChanged = stringChanged / fromToMultipler
-                    //stringChanged = roundTwoDecimal(stringChanged)
-                    //currencyToTextView.text = stringChanged.toString()
 
                     currencyToTextView.setText(doTheExchange(stringChanged, fromToMultipler));
 
 
-
                 } else {
-                    //currencyToTextView.text = null;
                     currencyToTextView.setText("0");
                 }
-
 
 
             }
@@ -256,73 +233,18 @@ public final class MainActivity extends AppCompatActivity{
     }
 
 
-    public Double convertStringToDouble(String string){
+    public Double convertStringToDouble(String string) {
         return Double.parseDouble(string);
     }
 
 
-
-    public String doTheExchange(Double original, Double multiplier){
+    public String doTheExchange(Double original, Double multiplier) {
 
         double returnExchange = (original / multiplier) * 100 / 100;
 
         return String.format("%.2f", returnExchange);
         //double returnExchange = round((original / multiplier) * 100) / 100
     }
-
-
-
-
-
-    /**
-     //as the user types, the currency will be automatically converted
-     currencyFromTextView.addTextChangedListener(object :TextWatcher
-
-     {
-
-     override fun afterTextChanged(s:Editable){
-     }
-
-     override fun beforeTextChanged(
-     s:CharSequence, start:Int,
-     count:Int, after:Int
-     ){
-     }
-
-     override fun onTextChanged(
-     s:CharSequence, start:Int,
-     before:Int, count:Int
-     ){
-
-     var stringChanged = currencyFromTextView.text.toString().toDoubleOrNull()
-
-     if (stringChanged != null) {
-     //stringChanged = stringChanged / fromToMultipler
-     //stringChanged = roundTwoDecimal(stringChanged)
-     //currencyToTextView.text = stringChanged.toString()
-
-     currencyToTextView.text = doTheExchange(stringChanged, fromToMultipler)
-
-
-     } else {
-     currencyToTextView.text = null
-     }
-
-     }
-     })
-     */
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     /**
@@ -555,8 +477,6 @@ public final class MainActivity extends AppCompatActivity{
     }
 
 
-
-
     private class CaptureGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
@@ -620,9 +540,6 @@ public final class MainActivity extends AppCompatActivity{
             }
         }
     }
-
-
-
 
 
 }
