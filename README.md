@@ -5,7 +5,7 @@ Using image processing and computer vission, this app allows a live feed of a fo
 
 
 
-<img class="ui tiny left rounded image" src="https://github.com/arslan-r/clever_currency_exchange/blob/master/app/Images/WorkingSample.png">
+<img class="ui mini left rounded image" src="https://github.com/arslan-r/clever_currency_exchange/blob/master/app/ResizedCopy.png">
 
 
 
