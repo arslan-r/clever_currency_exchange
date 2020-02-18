@@ -5,6 +5,8 @@ Using image processing and computer vission, this app allows a live feed of a fo
 
 
 
+<img class="ui medium left floated rounded image" src="clever_currency_exchange/app/Images/WorkingSample.png">
+
 
 
 
